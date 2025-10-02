@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 5rem;
+}
+
+.units {
+  min-width: 150px;
+}
+
+.units img {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  opacity: 0.8;
+}
+
+.css-1wy0on6,
+.css-1okebmr-indicatorSeparator,
+.css-2xe81z-indicatorContainer {
+  all: unset;
+  display: none;
+}
+
+.units .css-1s2u09g-control {
+  transition: all 0.2s ease;
+}
+
+.units .css-1s2u09g-control:hover {
+  transform: translateY(-1px);
+}
