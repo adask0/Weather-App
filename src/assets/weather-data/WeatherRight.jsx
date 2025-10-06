@@ -1,6 +1,9 @@
 import React from "react";
 import Select, { components } from "react-select";
+import { useWeather } from "../../context/WeatherContext";
+import { fetchWeatherData } from "../../services/api";
 import "./weatherright.css";
+import WeatherHours from "./WeatherHours";
 
 const daysOptions = [
   { value: 1, label: "Monday" },
@@ -20,9 +23,18 @@ export default function WeatherRight() {
   const d = new Date();
   let day = d.getDay();
 
+  const dataDay = fetchWeatherData().daily;
+
   const [selectedOption, setSelectedOption] = React.useState(
     daysOptions[day === 0 ? 6 : day - 1]
   );
+
+  function getDayAndHourFromTimestamp(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = dayNames[date.getDay()];
+    const hour = date.getHours();
+    return { day, hour };
+  }
 
   const handleChange = (value) => {
     setSelectedOption(value);
@@ -110,6 +122,7 @@ export default function WeatherRight() {
           components={{ Option, SingleValue }}
         />
       </div>
+      <WeatherHours />
     </div>
   );
 }
