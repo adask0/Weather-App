@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Select, { components } from "react-select";
+import { useWeather } from "../context/WeatherContext";
 import "./header.css";
 import Icon from "../assets/images/logo.svg";
 import Units from "../assets/images/icon-units.svg";
@@ -7,9 +8,9 @@ import Units from "../assets/images/icon-units.svg";
 const unitsOptions = [
   {
     value: 1,
-    label: "Units",
+    label: "Celsius",
     icon: Units,
-    isDisabled: true,
+    isDisabled: false,
     className: "option",
   },
   {
@@ -21,13 +22,6 @@ const unitsOptions = [
   },
   {
     value: 3,
-    label: "Celsius",
-    icon: Units,
-    isDisabled: false,
-    className: "option",
-  },
-  {
-    value: 4,
     label: "Fahrenheit",
     icon: Units,
     isDisabled: false,
@@ -55,9 +49,11 @@ const Option = (props) => {
 
 export default function Header() {
   const [selectedOption, setSelectedOption] = useState(unitsOptions[0]);
+  const { setTemperature } = useWeather();
 
   const handleChange = (value) => {
     setSelectedOption(value);
+    setTemperature(value.label);
   };
 
   const SingleValue = ({ children, ...props }) => (

@@ -5,39 +5,15 @@ import { fetchWeatherData } from "../../services/api";
 import "./weatherright.css";
 import WeatherHours from "./WeatherHours";
 
-const daysOptions = [
-  { value: 1, label: "Monday" },
-  { value: 2, label: "Tuesday" },
-  { value: 3, label: "Wednesday" },
-  { value: 4, label: "Thursday" },
-  { value: 5, label: "Friday" },
-  { value: 6, label: "Saturday" },
-  { value: 7, label: "Sunday" },
-];
-
 const Option = (props) => {
   return <components.Option {...props}>{props.data.label}</components.Option>;
 };
 
 export default function WeatherRight() {
-  const d = new Date();
-  let day = d.getDay();
-
-  const dataDay = fetchWeatherData().daily;
-
-  const [selectedOption, setSelectedOption] = React.useState(
-    daysOptions[day === 0 ? 6 : day - 1]
-  );
-
-  function getDayAndHourFromTimestamp(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const day = dayNames[date.getDay()];
-    const hour = date.getHours();
-    return { day, hour };
-  }
+  const { selectedDay, setSelectedDay, daysOptions } = useWeather();
 
   const handleChange = (value) => {
-    setSelectedOption(value);
+    setSelectedDay(value);
   };
 
   const SingleValue = ({ children, ...props }) => (
@@ -51,7 +27,7 @@ export default function WeatherRight() {
         <Select
           placeholder="Select Day"
           options={daysOptions}
-          value={selectedOption}
+          value={selectedDay}
           onChange={handleChange}
           styles={{
             control: (base, state) => ({

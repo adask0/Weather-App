@@ -1,0 +1,42 @@
+.weather-hours-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80%;
+  padding: 1rem;
+}
+
+.hourly-forecast {
+  display: flex;
+  overflow-y: auto;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.hour-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 85%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background-color: #2f2f49;
+}
+
+.temperature {
+  margin: auto 0;
+  margin-left: auto;
+}
+
+.hour {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.weather-icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 16px;
+}
