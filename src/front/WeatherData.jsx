@@ -1,11 +1,16 @@
 import WeatherRight from "../assets/weather-data/WeatherRight";
+import DailyDetails from "./DailyDetails";
+import DailyForecast from "./DailyForecast";
 import TodayBanner from "./TodayBanner";
+import "./weatherdata.css";
 
 export default function Header() {
   return (
-    <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
-      <div style={{ flex: 1 }}>
+    <div className="weather-data-container">
+      <div className="weather-data-left">
         <TodayBanner />
+        <DailyDetails />
+        <DailyForecast />
       </div>
       <WeatherRight />
     </div>

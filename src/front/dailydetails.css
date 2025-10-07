@@ -1,0 +1,14 @@
+.daily-details {
+  display: flex;
+  width: calc(90% + 4rem);
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.daily-data-content {
+  background-color: #2f2f49;
+  border-radius: 12px;
+  width: 20%;
+  padding: 0 1rem;
+}

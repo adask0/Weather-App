@@ -1,0 +1,12 @@
+.weather-data-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 20px;
+}
+.weather-data-left {
+  flex: 1;
+}
+.weather-data-right {
+  width: 30%;
+}
