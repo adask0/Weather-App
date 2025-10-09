@@ -561,6 +561,5 @@ export const fetchWeatherData = async (lat: number, lon: number) => {
   }
 
   const data = await response.json();
-  console.log("Fetched weather data:", endpoint);
   return data;
 };

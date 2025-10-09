@@ -1,0 +1,13 @@
+{
+  "appId": "com.adasko.weatherapp",
+  "appName": "Weather App",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#16213e",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  }
+}

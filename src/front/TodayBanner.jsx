@@ -15,8 +15,6 @@ export default function TodayBanner() {
   const { selectedLocation, getTemperature } = useWeather();
   const [data, setData] = React.useState(null);
 
-  console.log("Selected location in TodayBanner:", selectedLocation);
-
   useEffect(() => {
     const fetchData = async () => {
       try {

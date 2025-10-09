@@ -13,12 +13,19 @@ export function WeatherProvider({ children }) {
     { value: 6, label: "Saturday" },
     { value: 7, label: "Sunday" },
   ];
-  const [selectedLocation, setSelectedLocation] = useState({
-    name: "Tirana",
-    country: "Albania",
-    latitude: 41.3275,
-    longitude: 19.8187,
+  const [selectedLocation, setSelectedLocation] = useState(() => {
+    if (localStorage.getItem("selectedCity")) {
+      return JSON.parse(localStorage.getItem("selectedCity"));
+    } else {
+      return {
+        name: "Warsaw",
+        country: "Poland",
+        latitude: 52.2297,
+        longitude: 21.0122,
+      };
+    }
   });
+
   const [weatherData, setWeatherData] = useState(null);
 
   const [temperature, setTemperature] = useState("Celsius");
@@ -42,6 +49,11 @@ export function WeatherProvider({ children }) {
     }
   };
 
+  const saveSelectedLocation = (location) => {
+    setSelectedLocation(location);
+    localStorage.setItem("selectedCity", JSON.stringify(location));
+  };
+
   return (
     <WeatherContext.Provider
       value={{
@@ -55,6 +67,7 @@ export function WeatherProvider({ children }) {
         setSelectedDay,
         daysOptions,
         getTemperature,
+        saveSelectedLocation,
       }}
     >
       {children}

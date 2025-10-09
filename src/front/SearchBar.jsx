@@ -5,7 +5,8 @@ import { useWeather } from "../context/WeatherContext";
 import { getCityData, buildEndpoint, fetchWeatherData } from "../services/api";
 
 export default function SearchBar() {
-  const { selectedLocation, setSelectedLocation } = useWeather();
+  const { selectedLocation, setSelectedLocation, saveSelectedLocation } =
+    useWeather();
   const cities = getCityData();
   const [filteredCities, setFilteredCities] = React.useState("");
   const [searchCity, setSearchCity] = React.useState("");
@@ -42,6 +43,7 @@ export default function SearchBar() {
     setSearchCity(city.name);
     buildEndpoint(city.latitude, city.longitude);
     fetchWeatherData(city.latitude, city.longitude);
+    saveSelectedLocation(city);
   };
 
   useEffect(() => {

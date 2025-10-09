@@ -15,7 +15,6 @@ export default function DailyDetails() {
           selectedLocation.latitude,
           selectedLocation.longitude
         );
-        console.log("Fetched weather data:", weatherData);
         setData(weatherData);
       } catch (error) {
         console.error("Error:", error);
