@@ -17,3 +17,10 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@media (max-width: 968px) {
+  .weather-right {
+    width: 90%;
+    height: auto;
+  }
+}

@@ -12,7 +12,7 @@ import IconStorm from "../assets/images/icon-storm.webp";
 import IconDrizzle from "../assets/images/icon-drizzle.webp";
 
 export default function TodayBanner() {
-  const { selectedLocation, temperature } = useWeather();
+  const { selectedLocation, getTemperature } = useWeather();
   const [data, setData] = React.useState(null);
 
   console.log("Selected location in TodayBanner:", selectedLocation);
@@ -52,19 +52,6 @@ export default function TodayBanner() {
         return IconDrizzle;
       default:
         return IconSunny;
-    }
-  };
-
-  const getTemperature = (tempCelsius) => {
-    switch (temperature) {
-      case "Celsius":
-        return tempCelsius;
-      case "Fahrenheit":
-        return (tempCelsius * 9) / 5 + 32;
-      case "Kelvin":
-        return tempCelsius + 273.15;
-      default:
-        return tempCelsius;
     }
   };
 

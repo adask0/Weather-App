@@ -36,17 +36,6 @@ h1 {
   box-shadow: 0 0 5px rgba(70, 87, 218, 0.5);
 }
 
-.search-button {
-  background-color: #4657da;
-  border: none;
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
-  height: 50px;
-  color: white;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
 .search-bar-results {
   max-height: 50px;
 }
@@ -65,4 +54,31 @@ h1 {
 .city-suggestion {
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .search-bar {
+    display: inline;
+  }
+
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0 2.05rem;
+    margin: 0 auto;
+  }
+
+  .search-bar-results {
+    width: 80%;
+  }
+
+  .city-suggestions {
+    width: 80%;
+  }
 }

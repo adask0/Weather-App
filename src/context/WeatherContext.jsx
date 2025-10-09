@@ -29,6 +29,19 @@ export function WeatherProvider({ children }) {
     daysOptions[date.getDay() === 0 ? 6 : date.getDay() - 1]
   );
 
+  const getTemperature = (tempCelsius) => {
+    switch (temperature) {
+      case "Celsius":
+        return tempCelsius;
+      case "Fahrenheit":
+        return Math.round(((tempCelsius * 9) / 5 + 32) * 100) / 100;
+      case "Kelvin":
+        return Math.round((tempCelsius + 273.15) * 100) / 100;
+      default:
+        return tempCelsius;
+    }
+  };
+
   return (
     <WeatherContext.Provider
       value={{
@@ -41,6 +54,7 @@ export function WeatherProvider({ children }) {
         selectedDay,
         setSelectedDay,
         daysOptions,
+        getTemperature,
       }}
     >
       {children}

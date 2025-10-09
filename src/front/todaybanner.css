@@ -25,3 +25,21 @@
   height: 84px;
   margin-right: 16px;
 }
+
+@media (max-width: 968px) {
+  .today-banner-container {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .today-banner-container h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .today-banner-temperture h1 {
+    font-size: 3rem;
+    margin: 0;
+  }
+}

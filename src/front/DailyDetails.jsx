@@ -4,7 +4,8 @@ import { useWeather } from "../context/WeatherContext";
 import { fetchWeatherData } from "../services/api";
 
 export default function DailyDetails() {
-  const { selectedLocation, selectedDay } = useWeather();
+  const { selectedLocation, selectedDay, getTemperature, temperature } =
+    useWeather();
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
@@ -23,14 +24,29 @@ export default function DailyDetails() {
     fetchData();
   }, [selectedLocation]);
 
-  const date = new Date(data.current_weather.time);
-  const index = date.getHours();
+  const getHourlyIndex = () => {
+    if (!data || !data.current_weather) return 0;
+    const date = new Date(data.current_weather.time);
+    return date.getHours();
+  };
+
+  const index = getHourlyIndex();
+
+  const todayTemperature = () => {
+    if (!data) return "...";
+    if (temperature === "Celsius")
+      return getTemperature(data.hourly.temperature_2m[index]) + "°C";
+    if (temperature === "Fahrenheit")
+      return getTemperature(data.hourly.temperature_2m[index]) + "°F";
+    if (temperature === "Kelvin")
+      return getTemperature(data.hourly.temperature_2m[index]) + "°K";
+  };
 
   return (
     <div className="daily-details">
       <div className="daily-data-content">
         <h4>Feels like</h4>
-        <h2>{data ? `${data.hourly.apparent_temperature[index]}°C` : "..."}</h2>
+        <h2>{todayTemperature()}</h2>
       </div>
       <div className="daily-data-content">
         <h4>Humidity</h4>
