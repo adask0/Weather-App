@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select, { components } from "react-select";
-import { useWeather } from "../context/WeatherContext";
+import { useTemperature } from "../context/WeatherContexts";
 import "./header.css";
 import Icon from "../assets/images/logo.svg";
 import Units from "../assets/images/icon-units.svg";
@@ -49,12 +49,12 @@ const Option = (props) => {
 
 export default function Header() {
   const [selectedOption, setSelectedOption] = useState(unitsOptions[0]);
-  const { setTemperature, units, setUnits } = useWeather();
+  const { setTemperature } = useTemperature();
+
 
   const handleChange = (value) => {
     setSelectedOption(value);
     setTemperature(value.label);
-    setUnits(value.label.toLowerCase());
   };
 
   const SingleValue = ({ children, ...props }) => (

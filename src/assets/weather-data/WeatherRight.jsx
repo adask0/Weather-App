@@ -1,7 +1,6 @@
 import React from "react";
 import Select, { components } from "react-select";
-import { useWeather } from "../../context/WeatherContext";
-import { fetchWeatherData } from "../../services/api";
+import { useDay } from "../../context/WeatherContexts";
 import "./weatherright.css";
 import WeatherHours from "./WeatherHours";
 
@@ -10,7 +9,7 @@ const Option = (props) => {
 };
 
 export default function WeatherRight() {
-  const { selectedDay, setSelectedDay, daysOptions } = useWeather();
+  const { selectedDay, setSelectedDay, daysOptions } = useDay();
 
   const handleChange = (value) => {
     setSelectedDay(value);

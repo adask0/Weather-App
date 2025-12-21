@@ -1,57 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./todaybanner.css";
-import { fetchWeatherData } from "../services/api";
-import { useWeather } from "../context/WeatherContext";
-import IconFog from "../assets/images/icon-fog.webp";
-import IconOvercast from "../assets/images/icon-overcast.webp";
-import IconPartlyCloudy from "../assets/images/icon-partly-cloudy.webp";
-import IconSunny from "../assets/images/icon-sunny.webp";
-import IconRain from "../assets/images/icon-rain.webp";
-import IconSnow from "../assets/images/icon-snow.webp";
-import IconStorm from "../assets/images/icon-storm.webp";
-import IconDrizzle from "../assets/images/icon-drizzle.webp";
+import { useLocation } from "../context/WeatherContexts";
+import { useTemperature } from "../context/WeatherContexts";
+import { getWeatherIcon } from "../services/weatherIconMapper";
+import { useWeatherData } from "../hooks/useWeatherData";
 
 export default function TodayBanner() {
-  const { selectedLocation, getTemperature } = useWeather();
-  const [data, setData] = React.useState(null);
+  const { selectedLocation } = useLocation();
+  const { getTemperature } = useTemperature();
+  
+  const { data, loading, error } = useWeatherData(
+    selectedLocation.latitude,
+    selectedLocation.longitude
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchWeatherData(
-          selectedLocation.latitude,
-          selectedLocation.longitude
-        );
-        setData(data);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchData();
-  }, [selectedLocation]);
-
-  const getWeatherIcon = (weathercode) => {
-    switch (weathercode) {
-      case (0, 1):
-        return IconSunny;
-      case 45:
-        return IconFog;
-      case 3:
-        return IconOvercast;
-      case 2:
-        return IconPartlyCloudy;
-      case (63, 65, 80, 81, 82):
-        return IconRain;
-      case (73, 75, 77, 85, 86):
-        return IconSnow;
-      case (95, 96, 99):
-        return IconStorm;
-      case (51, 53, 55):
-        return IconDrizzle;
-      default:
-        return IconSunny;
-    }
-  };
+  if (loading) return <div className="today-banner-container">Loading...</div>;
+  if (error) return <div className="today-banner-container">Error loading data</div>;
 
   return (
     <div className="today-banner-container">
@@ -69,7 +33,7 @@ export default function TodayBanner() {
         </p>
       </div>
       <div className="today-banner-temperture">
-        <img src={getWeatherIcon(data?.current_weather?.weathercode)} alt="" />
+        <img src={getWeatherIcon(data?.current_weather?.weathercode)} alt="Weather icon" />
         <h1>{getTemperature(data?.current_weather?.temperature)}°</h1>
       </div>
     </div>

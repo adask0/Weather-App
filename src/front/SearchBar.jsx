@@ -1,12 +1,11 @@
 import React from "react";
 import "./searchbar.css";
 import { useEffect } from "react";
-import { useWeather } from "../context/WeatherContext";
+import { useLocation } from "../context/WeatherContexts";
 import { getCityData, buildEndpoint, fetchWeatherData } from "../services/api";
 
 export default function SearchBar() {
-  const { selectedLocation, setSelectedLocation, saveSelectedLocation } =
-    useWeather();
+  const { selectedLocation, setSelectedLocation, saveSelectedLocation } = useLocation();
   const cities = getCityData();
   const [filteredCities, setFilteredCities] = React.useState("");
   const [searchCity, setSearchCity] = React.useState("");

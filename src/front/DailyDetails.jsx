@@ -1,27 +1,20 @@
 import React from "react";
 import "./dailydetails.css";
-import { useWeather } from "../context/WeatherContext";
-import { fetchWeatherData } from "../services/api";
+import { useLocation } from "../context/WeatherContexts";
+import { useTemperature } from "../context/WeatherContexts";
+import { useWeatherData } from "../hooks/useWeatherData";
 
 export default function DailyDetails() {
-  const { selectedLocation, selectedDay, getTemperature, temperature } =
-    useWeather();
-  const [data, setData] = React.useState(null);
+  const { selectedLocation } = useLocation();
+  const { getTemperature, getTemperatureUnit } = useTemperature();
+  
+  const { data, loading, error } = useWeatherData(
+    selectedLocation.latitude,
+    selectedLocation.longitude
+  );
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const weatherData = await fetchWeatherData(
-          selectedLocation.latitude,
-          selectedLocation.longitude
-        );
-        setData(weatherData);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchData();
-  }, [selectedLocation]);
+  if (loading) return <div className="daily-details">Loading...</div>;
+  if (error) return <div className="daily-details">Error loading data</div>;
 
   const getHourlyIndex = () => {
     if (!data || !data.current_weather) return 0;
@@ -33,12 +26,8 @@ export default function DailyDetails() {
 
   const todayTemperature = () => {
     if (!data) return "...";
-    if (temperature === "Celsius")
-      return getTemperature(data.hourly.temperature_2m[index]) + "°C";
-    if (temperature === "Fahrenheit")
-      return getTemperature(data.hourly.temperature_2m[index]) + "°F";
-    if (temperature === "Kelvin")
-      return getTemperature(data.hourly.temperature_2m[index]) + "°K";
+    const temp = getTemperature(data.hourly.temperature_2m[index]);
+    return `${temp}${getTemperatureUnit()}`;
   };
 
   return (

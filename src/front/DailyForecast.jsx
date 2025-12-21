@@ -1,11 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import "./dailyforecast.css";
-import { useWeather } from "../context/WeatherContext";
-import { fetchWeatherData } from "../services/api";
+import { useLocation } from "../context/WeatherContexts";
+import { useTemperature } from "../context/WeatherContexts";
+import { useDay } from "../context/WeatherContexts";
 import IconFog from "../assets/images/icon-fog.webp";
-import IconOvercast from "../assets/images/icon-overcast.webp";
-import IconPartlyCloudy from "../assets/images/icon-partly-cloudy.webp";
+import { useWeatherData } from "../hooks/useWeatherData";
 import IconSunny from "../assets/images/icon-sunny.webp";
 import IconRain from "../assets/images/icon-rain.webp";
 import IconSnow from "../assets/images/icon-snow.webp";
@@ -13,25 +13,18 @@ import IconStorm from "../assets/images/icon-storm.webp";
 import IconDrizzle from "../assets/images/icon-drizzle.webp";
 
 export default function DailyForecast() {
-  const { selectedLocation, daysOptions, getTemperature } = useWeather();
-  const [data, setData] = React.useState(null);
+  const { selectedLocation } = useLocation();
+  const { getTemperature } = useTemperature();
+  const { daysOptions } = useDay();
+  
+  const { data, loading, error } = useWeatherData(
+    selectedLocation.latitude,
+    selectedLocation.longitude
+  );
   const [weekdays, setWeekdays] = useState([]);
-  const weatherIcons = [];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const weatherData = await fetchWeatherData(
-          selectedLocation.latitude,
-          selectedLocation.longitude
-        );
-        setData(weatherData);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-      }
-    };
-    fetchData();
-  }, [selectedLocation]);
+  if (loading) return <p>Loading forecast...</p>;
+  if (error) return <p>Error loading forecast</p>;
 
   function generateWeekdays() {
     weekdays.length = 0;
@@ -61,50 +54,56 @@ export default function DailyForecast() {
   }
 
   const getWeatherIcon = (index) => {
-    weatherIcons.length = 0;
     if (!data) return IconSunny;
+  
     const startIndex = index * 24;
     const endIndex = startIndex + 24;
+  
+    const counters = {
+      rain: 0,
+      snow: 0,
+      drizzle: 0,
+      storm: 0,
+      fog: 0,
+      sunny: 0
+    };
+  
     for (let i = startIndex; i < endIndex; i++) {
       if (data.hourly.rain[i] > 0) {
-        weatherIcons.push(1);
+        counters.rain++;
       } else if (data.hourly.snowfall[i] > 0) {
-        weatherIcons.push(2);
+        counters.snow++;
       } else if (data.hourly.precipitation[i] > 0) {
-        weatherIcons.push(3);
+        counters.drizzle++;
       } else if (data.hourly.wind_gusts_10m[i] > 15) {
-        weatherIcons.push(4);
+        counters.storm++;
       } else if (data.hourly.visibility[i] < 30000) {
-        weatherIcons.push(5);
+        counters.fog++;
       } else {
-        weatherIcons.push(0);
+        counters.sunny++;
       }
     }
-
-    const mostFrequentIcon = weatherIcons
-      .sort(
-        (a, b) =>
-          weatherIcons.filter((v) => v === a).length -
-          weatherIcons.filter((v) => v === b).length
-      )
-      .pop();
-
-    switch (mostFrequentIcon) {
-      case 0:
-        return IconSunny;
-      case 1:
-        return IconRain;
-      case 2:
-        return IconSnow;
-      case 3:
-        return IconDrizzle;
-      case 4:
-        return IconStorm;
-      case 5:
-        return IconFog;
-      default:
-        return IconSunny;
+  
+    let maxCondition = 'sunny';
+    let maxCount = 0;
+  
+    for (const [condition, count] of Object.entries(counters)) {
+      if (count > maxCount) {
+        maxCount = count;
+        maxCondition = condition;
+      }
     }
+  
+    const iconMap = {
+      rain: IconRain,
+      snow: IconSnow,
+      drizzle: IconDrizzle,
+      storm: IconStorm,
+      fog: IconFog,
+      sunny: IconSunny
+    };
+  
+    return iconMap[maxCondition];
   };
 
   return (
