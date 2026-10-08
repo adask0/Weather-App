@@ -16,11 +16,9 @@
     "@capacitor/cli": "^7.4.3",
     "@capacitor/core": "^7.4.3",
     "@capacitor/ios": "^7.4.3",
-    "openmeteo": "^1.2.1",
+    "@fontsource-variable/geologica": "^5.3.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-router": "^7.9.3",
-    "react-select": "^5.10.2"
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
